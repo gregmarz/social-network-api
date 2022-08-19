@@ -37,4 +37,21 @@ module.exports = {
       res.json({ message: "thought deleted! :)" })
     );
   },
+  updateThought(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtID },
+      { $set: req.body },
+      { new: true }
+    )
+      .then((thoughts) => {
+        if (thoughts) {
+          res.json(thoughts);
+        } else {
+          return res.status(404).json({ message: "No thought found" });
+        }
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  },
 };
