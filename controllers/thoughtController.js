@@ -71,4 +71,17 @@ module.exports = {
       }
     });
   },
+  deleteReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtID },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { runValidators: true, new: true }
+    ).then((thoughts) => {
+      if (thoughts) {
+        res.json(thoughts);
+      } else {
+        res.status(404).json({ message: "No thought found" });
+      }
+    });
+  },
 };
