@@ -54,4 +54,21 @@ module.exports = {
         res.status(500).json(err);
       });
   },
+  createReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtID },
+      {
+        $push: {
+          reactions: req.body,
+        },
+      },
+      { new: true }
+    ).then((thoughts) => {
+      if (thoughts) {
+        res.json(thoughts);
+      } else {
+        res.status(404).json({ message: "No thought found" });
+      }
+    });
+  },
 };
