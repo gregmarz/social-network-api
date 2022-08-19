@@ -32,4 +32,9 @@ module.exports = {
         res.status(500).json(err);
       });
   },
+  deleteThought(req, res) {
+    Thought.findOneAndDelete({ _id: req.params.thoughtID }).then(() =>
+      res.json({ message: "thought deleted! :)" })
+    );
+  },
 };
